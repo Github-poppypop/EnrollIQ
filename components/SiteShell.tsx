@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Auth from './Auth';
 
 const nav = [
   { href: '/dashboard', label: 'Dashboard' },
@@ -28,19 +29,6 @@ export default function SiteShell({ children }: { children: React.ReactNode }) {
       <footer className="mx-auto max-w-6xl px-4 pb-10 pt-6 text-xs text-zinc-500">
         © {new Date().getFullYear()} EnrollIQ
       </footer>
-    </div>
-  );
-}
-
-async function Auth() {
-  return (
-    <div className="flex items-center gap-3">
-      <Link
-        href="/auth/signin"
-        className="rounded-full border border-zinc-300 px-3 py-1 text-xs hover:border-black dark:border-zinc-700 dark:hover:border-white"
-      >
-        Sign in
-      </Link>
     </div>
   );
 }
