@@ -23,8 +23,8 @@ export default function UploadPage() {
   return (
     <div className="flex flex-col gap-6">
       <div>
-        <h1 className="text-2xl font-semibold tracking-tight">Upload data</h1>
-        <p className="text-sm text-zinc-600 dark:text-zinc-400">
+        <h1 className="font-headline-md text-headline-md font-semibold text-on-surface">Upload data</h1>
+        <p className="font-body-sm text-body-sm text-on-surface-variant">
           Import enrollment snapshots into Supabase for forecasting.
         </p>
       </div>
@@ -41,20 +41,20 @@ export default function UploadPage() {
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 8 }}
-            className="flex items-start gap-3 rounded-2xl border border-green-200 bg-green-50 p-4 dark:border-green-900 dark:bg-green-950"
+            className="flex items-start gap-3 rounded-xl border border-success-container bg-success-container/40 p-4"
           >
-            <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-green-700 dark:text-green-400" />
+            <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-success" />
             <div className="flex-1">
-              <p className="text-sm font-medium text-green-800 dark:text-green-300">
+              <p className="font-label-md text-label-md text-on-primary">
                 {result.message}
               </p>
-              <p className="mt-1 text-xs text-green-700/80 dark:text-green-400/80">
+              <p className="mt-1 text-xs text-on-primary/80">
                 {result.file.name} · {(result.file.size / 1024).toFixed(1)} KB
               </p>
             </div>
             <button
               onClick={() => setResult(null)}
-              className="text-green-500 hover:text-green-700"
+              className="clay-btn text-success"
             >
               <X className="h-4 w-4" />
             </button>

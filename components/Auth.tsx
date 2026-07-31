@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 import { createSupabaseBrowserClient } from '@/lib/supabase/client';
 
 type SessionUser = {
@@ -60,7 +61,15 @@ export default function Auth() {
   }
 
   if (!user) {
-    return null;
+    return (
+      <Link
+        href="/auth/signin"
+        className="clay-btn py-2 px-4 font-label-md text-label-md text-on-surface inline-flex items-center gap-2"
+      >
+        <span className="material-symbols-outlined text-[18px]">login</span>
+        Sign in
+      </Link>
+    );
   }
 
   return (
@@ -68,7 +77,7 @@ export default function Auth() {
       <span className="font-body-sm text-body-sm text-on-surface-variant">{user.email}</span>
       <button
         onClick={signOut}
-        className="clay-btn py-1.5 px-3 font-label-md text-label-md text-on-surface"
+        className="clay-btn py-2 px-4 font-label-md text-label-md text-on-surface"
       >
         Sign out
       </button>
