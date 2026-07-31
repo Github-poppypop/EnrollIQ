@@ -18,9 +18,9 @@ import { CustomTooltip } from '@/components/chart/CustomTooltip';
 import { Area, AreaChart, CartesianGrid, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 
 const sparklineTrends: Record<string, number[]> = {
-  'Enrollment': [1180, 1200, 1220, 1240, 1260, 1284],
-  'Avg Credits': [14.2, 14.3, 14.4, 14.5, 14.6, 14.7],
-  'Retention': [89.5, 90.1, 90.8, 91.0, 91.2, 91.4],
+  'Total Enrollment': [1180, 1200, 1220, 1240, 1260, 1284],
+  'Avg Capacity Utilization': [65, 66, 67, 68, 69, 70],
+  'Retention Rate': [89.5, 90.1, 90.8, 91.0, 91.2, 91.4],
   'Model MAE': [45, 42, 40, 39, 38, 38],
 };
 
@@ -70,8 +70,8 @@ export default function DashboardPage() {
       <div className="flex flex-col gap-6">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-semibold tracking-tight">Dashboard</h1>
-            <p className="text-sm text-zinc-600 dark:text-zinc-400">
+            <h1 className="font-headline-md text-headline-md font-semibold text-on-surface">Dashboard</h1>
+            <p className="font-body-sm text-body-sm text-on-surface-variant">
               Enrollment health and forecast signal.
             </p>
           </div>
@@ -80,7 +80,7 @@ export default function DashboardPage() {
             <button
               onClick={load}
               disabled={loading}
-              className="rounded-full border border-zinc-300 px-3 py-1.5 text-xs hover:border-black dark:border-zinc-700 dark:hover:border-white disabled:opacity-50 transition-colors"
+              className="clay-btn py-1.5 px-3 font-label-md text-label-md text-on-surface disabled:opacity-50 transition-colors"
             >
               {loading ? 'Refreshing…' : 'Refresh'}
             </button>
@@ -88,35 +88,28 @@ export default function DashboardPage() {
         </div>
 
         {/* Tab navigation */}
-        <motion.div
-          className="flex gap-1 rounded-xl bg-zinc-100 p-1 dark:bg-zinc-900"
-          initial={{ opacity: 0, y: -8 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1 }}
-        >
+        <div className="relative flex gap-1 rounded-xl bg-surface-container p-1">
           {tabs.map((tab) => (
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`relative flex-1 rounded-lg px-3 py-1.5 text-xs font-medium transition-colors ${
+              className={`relative flex-1 rounded-lg px-3 py-2 font-label-md text-label-md transition-colors ${
                 activeTab === tab.id
-                  ? 'text-zinc-900 dark:text-zinc-100'
-                  : 'text-zinc-500 hover:text-zinc-700 dark:text-zinc-400 dark:hover:text-zinc-200'
+                  ? 'text-on-surface'
+                  : 'text-on-surface-variant hover:text-on-surface'
               }`}
             >
               {tab.label}
+              {activeTab === tab.id && (
+                <motion.div
+                  className="absolute inset-0 rounded-lg bg-surface-container-lowest"
+                  layoutId="tabIndicator"
+                  transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+                />
+              )}
             </button>
           ))}
-          <motion.div
-            className="absolute top-1 bottom-1 rounded-lg bg-white shadow-sm dark:bg-zinc-800"
-            layoutId="tabIndicator"
-            transition={{ type: 'spring', stiffness: 400, damping: 30 }}
-            style={{
-              left: `${tabs.findIndex((t) => t.id === activeTab) * (100 / tabs.length)}%`,
-              width: `${100 / tabs.length}%`,
-            }}
-          />
-        </motion.div>
+        </div>
 
         <AnimatePresence mode="wait">
           {error ? (
@@ -125,11 +118,11 @@ export default function DashboardPage() {
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 8 }}
-              className="rounded-2xl border border-red-200 bg-red-50 p-6 text-sm text-red-700 dark:border-red-900 dark:bg-red-950 dark:text-red-300"
+              className="clay-card p-6 text-sm text-on-surface"
             >
-              <p className="font-medium">Unable to load dashboard</p>
-              <p className="mt-1">{error}</p>
-              <button onClick={load} className="mt-3 rounded-full border border-red-300 px-3 py-1 text-xs hover:bg-red-100 dark:border-red-700 dark:hover:bg-red-900">
+              <p className="font-label-md text-label-md text-on-surface">Unable to load dashboard</p>
+              <p className="mt-2 font-body-sm text-body-sm text-on-surface-variant">{error}</p>
+              <button onClick={load} className="mt-3 clay-btn py-1.5 px-3 font-label-md text-label-md text-secondary">
                 Retry
               </button>
             </motion.div>
@@ -144,9 +137,9 @@ export default function DashboardPage() {
               {Array.from({ length: 4 }).map((_, i) => (
                 <GlassCard key={i}>
                   <div className="animate-pulse flex flex-col gap-3">
-                    <div className="h-4 w-24 rounded bg-zinc-200 dark:bg-zinc-800" />
-                    <div className="h-7 w-16 rounded bg-zinc-300 dark:bg-zinc-700" />
-                    <div className="h-10 w-full rounded bg-zinc-100 dark:bg-zinc-900" />
+                    <div className="h-4 w-24 rounded bg-surface-container" />
+                    <div className="h-7 w-16 rounded bg-surface-container" />
+                    <div className="h-10 w-full rounded bg-surface-container" />
                   </div>
                 </GlassCard>
               ))}
@@ -186,115 +179,113 @@ export default function DashboardPage() {
               )}
 
               {/* Tabbed chart views */}
-              <AnimatePresence mode="wait">
-                {activeTab === 'overview' && (
-                  <motion.div
-                    key="overview"
-                    initial={{ opacity: 0, y: 8 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -8 }}
-                    transition={{ duration: 0.3 }}
-                  >
-                    {demandData.length > 0 ? (
-                      <div className="rounded-2xl border border-zinc-200 bg-white/70 p-4 shadow-sm backdrop-blur dark:border-zinc-800 dark:bg-black/50">
-                        <div className="flex items-center justify-between">
+              <div className="clay-card p-4">
+                <AnimatePresence mode="wait">
+                  {activeTab === 'overview' && (
+                    <motion.div
+                      key="overview"
+                      initial={{ opacity: 0, y: 8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -8 }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      {demandData.length > 0 ? (
+                        <div className="flex flex-col gap-4">
                           <div>
-                            <div className="text-sm font-medium">Demand vs Capacity</div>
-                            <div className="text-xs text-zinc-500">Term sequence snapshot with hover crosshairs</div>
+                            <div className="font-label-md text-label-md text-on-surface uppercase tracking-wider">Demand vs Capacity</div>
+                            <div className="font-body-sm text-body-sm text-on-surface-variant">Term sequence snapshot with hover crosshairs</div>
+                          </div>
+                          <div>
+                            <ResponsiveContainer width="100%" height={320}>
+                              <AreaChart data={demandData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
+                                <defs>
+                                  <linearGradient id="gradDashActual" x1="0" y1="0" x2="0" y2="1">
+                                    <stop offset="5%" stopColor="#22c55e" stopOpacity={0.45} />
+                                    <stop offset="95%" stopColor="#22c55e" stopOpacity={0.02} />
+                                  </linearGradient>
+                                  <linearGradient id="gradDashForecast" x1="0" y1="0" x2="0" y2="1">
+                                    <stop offset="5%" stopColor="#4b41e1" stopOpacity={0.4} />
+                                    <stop offset="95%" stopColor="#4b41e1" stopOpacity={0.02} />
+                                  </linearGradient>
+                                </defs>
+                                <CartesianGrid strokeDasharray="3 3" strokeOpacity={0.3} />
+                                <XAxis dataKey="term" tick={{ fontSize: 12 }} tickLine={false} />
+                                <YAxis tick={{ fontSize: 12 }} tickLine={false} axisLine={false} />
+                                <Tooltip content={<CustomTooltip />} />
+                                <Area
+                                  type="monotone"
+                                  dataKey="actual"
+                                  stroke="#22c55e"
+                                  strokeWidth={2.5}
+                                  fill="url(#gradDashActual)"
+                                  dot={{ r: 4, fill: '#22c55e', stroke: '#fff', strokeWidth: 2 }}
+                                  activeDot={{ r: 7, stroke: '#22c55e', strokeWidth: 2, fill: '#fff' }}
+                                  animationDuration={1200}
+                                  animationEasing="ease-out"
+                                />
+                                <Area
+                                  type="monotone"
+                                  dataKey="forecast"
+                                  stroke="#4b41e1"
+                                  strokeWidth={2}
+                                  strokeDasharray="6 3"
+                                  fill="url(#gradDashForecast)"
+                                  dot={{ r: 3, fill: '#4b41e1', stroke: '#fff', strokeWidth: 2 }}
+                                  animationDuration={1400}
+                                  animationEasing="ease-out"
+                                />
+                              </AreaChart>
+                            </ResponsiveContainer>
                           </div>
                         </div>
-                        <div className="mt-4">
-                          <ResponsiveContainer width="100%" height={320}>
-                            <AreaChart data={demandData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
-                              <defs>
-                                <linearGradient id="gradDashActual" x1="0" y1="0" x2="0" y2="1">
-                                  <stop offset="5%" stopColor="#22c55e" stopOpacity={0.45} />
-                                  <stop offset="95%" stopColor="#22c55e" stopOpacity={0.02} />
-                                </linearGradient>
-                                <linearGradient id="gradDashForecast" x1="0" y1="0" x2="0" y2="1">
-                                  <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.4} />
-                                  <stop offset="95%" stopColor="#3b82f6" stopOpacity={0.02} />
-                                </linearGradient>
-                              </defs>
-                              <CartesianGrid strokeDasharray="3 3" strokeOpacity={0.3} />
-                              <XAxis dataKey="term" tick={{ fontSize: 12 }} tickLine={false} />
-                              <YAxis tick={{ fontSize: 12 }} tickLine={false} axisLine={false} />
-                              <Tooltip content={<CustomTooltip />} />
-                              <Area
-                                type="monotone"
-                                dataKey="actual"
-                                stroke="#22c55e"
-                                strokeWidth={2.5}
-                                fill="url(#gradDashActual)"
-                                dot={{ r: 4, fill: '#22c55e', stroke: '#fff', strokeWidth: 2 }}
-                                activeDot={{ r: 7, stroke: '#22c55e', strokeWidth: 2, fill: '#fff' }}
-                                animationDuration={1200}
-                                animationEasing="ease-out"
-                              />
-                              <Area
-                                type="monotone"
-                                dataKey="forecast"
-                                stroke="#3b82f6"
-                                strokeWidth={2}
-                                strokeDasharray="6 3"
-                                fill="url(#gradDashForecast)"
-                                dot={{ r: 3, fill: '#3b82f6', stroke: '#fff', strokeWidth: 2 }}
-                                animationDuration={1400}
-                                animationEasing="ease-out"
-                              />
-                            </AreaChart>
-                          </ResponsiveContainer>
-                        </div>
-                      </div>
-                    ) : (
-                      <EmptyState title="No demand data" description="Demand data will appear once available." />
-                    )}
-                  </motion.div>
-                )}
+                      ) : (
+                        <EmptyState title="No demand data" description="Demand data will appear once available." />
+                      )}
+                    </motion.div>
+                  )}
 
-                {activeTab === 'enrollment' && (
-                  <motion.div
-                    key="enrollment"
-                    initial={{ opacity: 0, y: 8 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -8 }}
-                    transition={{ duration: 0.3 }}
-                  >
-                    <GlassCard hover glow>
-                      <div className="flex items-center justify-between">
-                        <div>
-                          <div className="text-sm font-medium">Enrollment by Segment</div>
-                          <div className="text-xs text-zinc-500">Click segments to toggle visibility</div>
-                        </div>
-                      </div>
-                      <div className="mt-4" />
-                    </GlassCard>
-                  </motion.div>
-                )}
-
-                {activeTab === 'correlation' && (
-                  <motion.div
-                    key="correlation"
-                    initial={{ opacity: 0, y: 8 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -8 }}
-                    transition={{ duration: 0.3 }}
-                  >
-                    {scatterData.length > 0 ? (
-                      <div className="rounded-2xl border border-zinc-200 bg-white/70 p-4 shadow-sm backdrop-blur dark:border-zinc-800 dark:bg-black/50">
+                  {activeTab === 'enrollment' && (
+                    <motion.div
+                      key="enrollment"
+                      initial={{ opacity: 0, y: 8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -8 }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      <GlassCard hover glow>
                         <div className="flex items-center justify-between">
                           <div>
-                            <div className="text-sm font-medium">Demand vs Capacity Correlation</div>
-                            <div className="text-xs text-zinc-500">Scatter with regression trend line</div>
+                            <div className="font-label-md text-label-md text-on-surface uppercase tracking-wider">Enrollment by Segment</div>
+                            <div className="font-body-sm text-body-sm text-on-surface-variant">Click segments to toggle visibility</div>
                           </div>
                         </div>
-                      </div>
-                    ) : (
-                      <EmptyState title="No correlation data" description="Scatter data will appear once available." />
-                    )}
-                  </motion.div>
-                )}
-              </AnimatePresence>
+                        <div className="mt-4" />
+                      </GlassCard>
+                    </motion.div>
+                  )}
+
+                  {activeTab === 'correlation' && (
+                    <motion.div
+                      key="correlation"
+                      initial={{ opacity: 0, y: 8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -8 }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      {scatterData.length > 0 ? (
+                        <div className="flex flex-col gap-4">
+                          <div>
+                            <div className="font-label-md text-label-md text-on-surface uppercase tracking-wider">Demand vs Capacity Correlation</div>
+                            <div className="font-body-sm text-body-sm text-on-surface-variant">Scatter with regression trend line</div>
+                          </div>
+                        </div>
+                      ) : (
+                        <EmptyState title="No correlation data" description="Scatter data will appear once available." />
+                      )}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
             </motion.div>
           )}
         </AnimatePresence>
