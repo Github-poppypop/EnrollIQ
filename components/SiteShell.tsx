@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import Auth from './Auth';
 import { PulseIndicator } from '@/components/chart/PulseIndicator';
 
@@ -16,41 +17,77 @@ const bottomNav = [
   { href: 'https://github.com/Github-poppypop/EnrollIQ', label: 'Support', icon: 'help', external: true },
 ];
 
+function cx(...classes: (string | false | undefined)[]) {
+  return classes.filter(Boolean).join(' ');
+}
+
 export default function SiteShell({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname();
+
+  const isActive = (href: string) =>
+    href === '/dashboard'
+      ? pathname === href
+      : pathname === href || pathname.startsWith(href + '/');
+
   return (
     <div className="flex h-screen overflow-hidden bg-background text-foreground antialiased">
       <aside className="w-[260px] h-screen sticky top-0 left-0 border-r border-outline-variant bg-surface flex flex-col py-4 px-3 z-50 shrink-0">
         <div className="mb-6 px-3 flex items-center gap-3">
-          <div className="w-8 h-8 rounded-full bg-primary text-on-primary flex items-center justify-center text-sm font-bold">
+          <div className="w-8 h-8 rounded-full bg-primary text-on-primary flex items-center justify-center text-sm font-bold shrink-0">
             EI
           </div>
-          <div>
-            <h1 className="font-headline-md text-headline-md font-bold text-on-surface leading-tight">EnrollIQ</h1>
-            <p className="font-body-sm text-body-sm text-on-surface-variant leading-tight">Academic Intelligence</p>
+          <div className="min-w-0">
+            <h1 className="font-headline-md text-headline-md font-bold text-on-surface leading-tight truncate">EnrollIQ</h1>
+            <p className="font-body-sm text-body-sm text-on-surface-variant leading-tight truncate">Academic Intelligence</p>
           </div>
         </div>
 
-        <button className="clay-btn w-full py-2 px-3 mb-6 font-label-md text-label-md text-secondary flex items-center justify-center gap-2">
+        <button className="clay-btn w-full py-2 px-3 mb-6 font-label-md text-label-md text-secondary flex items-center justify-center gap-2 shrink-0">
           <span className="material-symbols-outlined text-[18px]">add</span>
           New Analysis
         </button>
 
-        <nav className="flex-1 flex flex-col gap-1">
-          {nav.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors"
-            >
-              <span className="material-symbols-outlined text-[20px]">{item.icon}</span>
-              <span className="font-label-md text-label-md">{item.label}</span>
-            </Link>
-          ))}
+        <nav className="flex-1 flex flex-col gap-1 overflow-y-auto">
+          {nav.map((item) => {
+            const active = isActive(item.href);
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={cx(
+                  'flex items-center gap-3 px-3 py-2 rounded-lg transition-colors shrink-0',
+                  active
+                    ? 'bg-surface-container-low text-secondary border-l-4 border-secondary'
+                    : 'text-on-surface-variant hover:bg-surface-container'
+                )}
+              >
+                <span className={cx('material-symbols-outlined text-[20px] shrink-0', active && 'text-secondary')}>
+                  {item.icon}
+                </span>
+                <span className={cx('font-label-md text-label-md truncate', active && 'font-semibold')}>
+                  {item.label}
+                </span>
+              </Link>
+            );
+          })}
         </nav>
 
-        <div className="mt-auto border-t border-outline-variant pt-3 flex flex-col gap-1">
-          {bottomNav.map((item) =>
-            item.external ? (
+        <div className="mt-auto border-t border-outline-variant pt-3 flex flex-col gap-1 shrink-0">
+          {bottomNav.map((item) => {
+            const active = item.external ? false : isActive(item.href);
+            const Comp = item.external ? 'a' : Link;
+            const inner = (
+              <>
+                <span className={cx('material-symbols-outlined text-[20px] shrink-0', active && 'text-secondary')}>
+                  {item.icon}
+                </span>
+                <span className={cx('font-label-md text-label-md truncate', active && 'font-semibold text-secondary')}>
+                  {item.label}
+                </span>
+              </>
+            );
+
+            return item.external ? (
               <a
                 key={item.href}
                 href={item.href}
@@ -58,20 +95,23 @@ export default function SiteShell({ children }: { children: React.ReactNode }) {
                 rel="noreferrer"
                 className="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors"
               >
-                <span className="material-symbols-outlined text-[20px]">{item.icon}</span>
-                <span className="font-label-md text-label-md">{item.label}</span>
+                {inner}
               </a>
             ) : (
               <Link
                 key={item.href}
                 href={item.href}
-                className="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors"
+                className={cx(
+                  'flex items-center gap-3 px-3 py-2 rounded-lg transition-colors',
+                  active
+                    ? 'bg-surface-container-low text-secondary border-l-4 border-secondary'
+                    : 'text-on-surface-variant hover:bg-surface-container'
+                )}
               >
-                <span className="material-symbols-outlined text-[20px]">{item.icon}</span>
-                <span className="font-label-md text-label-md">{item.label}</span>
+                {inner}
               </Link>
-            )
-          )}
+            );
+          })}
           <div className="px-3 pt-2">
             <PulseIndicator active={true} label="Live" />
           </div>
