@@ -80,8 +80,9 @@ export default function DashboardPage() {
             <button
               onClick={load}
               disabled={loading}
-              className="clay-btn py-1.5 px-3 font-label-md text-label-md text-on-surface disabled:opacity-50 transition-colors"
+              className="clay-btn py-1.5 px-3 font-label-md text-label-md text-on-surface disabled:opacity-50 transition-colors inline-flex items-center gap-2"
             >
+              <span className="material-symbols-outlined text-[18px]">refresh</span>
               {loading ? 'Refreshing…' : 'Refresh'}
             </button>
           </div>
