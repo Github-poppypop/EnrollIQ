@@ -60,14 +60,7 @@ export default function Auth() {
   }
 
   if (!user) {
-    return (
-      <a
-        href="/auth/signin"
-        className="clay-btn py-1.5 px-3 font-label-md text-label-md text-on-surface"
-      >
-        Sign in
-      </a>
-    );
+    return null;
   }
 
   return (

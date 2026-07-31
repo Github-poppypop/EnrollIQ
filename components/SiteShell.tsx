@@ -108,6 +108,9 @@ export default function SiteShell({ children }: { children: React.ReactNode }) {
                 <span className="material-symbols-outlined">account_balance</span>
               </button>
             </div>
+            <button className="clay-btn py-sm px-md font-label-md text-label-md text-on-surface font-bold hover:text-secondary">
+              Deploy Model
+            </button>
             <Auth />
           </div>
         </header>

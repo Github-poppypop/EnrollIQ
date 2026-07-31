@@ -43,12 +43,12 @@ export default function SignInPage() {
             placeholder="name@institution.edu"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="rounded-md border border-zinc-300 px-3 py-2 dark:border-zinc-700"
+            className="clay-card px-3 py-2 font-body-sm text-body-sm text-on-surface"
           />
           {error ? <p className="text-sm text-red-600">{error}</p> : null}
           <button
             type="submit"
-            className="rounded-full bg-black px-4 py-2 text-sm text-white dark:bg-white dark:text-black"
+            className="clay-btn py-2 px-4 font-label-md text-label-md text-secondary"
           >
             Send magic link
           </button>

@@ -20,7 +20,7 @@ export default function SettingsPage() {
           <input
             value={institution}
             onChange={(e) => setInstitution(e.target.value)}
-            className="rounded-md border border-zinc-300 px-3 py-2 dark:border-zinc-700"
+            className="clay-card px-3 py-2 font-body-sm text-body-sm text-on-surface"
           />
         </label>
         <label className="flex flex-col gap-2 text-sm">
@@ -28,7 +28,7 @@ export default function SettingsPage() {
           <select
             value={term}
             onChange={(e) => setTerm(e.target.value)}
-            className="rounded-md border border-zinc-300 px-3 py-2 dark:border-zinc-700"
+            className="clay-card px-3 py-2 font-body-sm text-body-sm text-on-surface"
           >
             <option>Semester</option>
             <option>Quarter</option>
@@ -38,7 +38,7 @@ export default function SettingsPage() {
         <div className="flex items-center gap-3">
           <button
             type="button"
-            className="rounded-full bg-black px-4 py-2 text-sm text-white dark:bg-white dark:text-black"
+            className="clay-btn py-2 px-4 font-label-md text-label-md text-secondary"
           >
             Save settings
           </button>

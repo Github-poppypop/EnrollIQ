@@ -195,7 +195,10 @@ export function UploadDropzone({ onUpload }: UploadDropzoneProps) {
                 {result.file.name} · {(result.file.size / 1024).toFixed(1)} KB
               </p>
             </div>
-            <button onClick={reset} className="text-green-500 hover:text-green-700">
+            <button
+            onClick={reset}
+            className="clay-btn text-on-surface"
+          >
               <X className="h-4 w-4" />
             </button>
           </motion.div>
@@ -218,7 +221,7 @@ export function UploadDropzone({ onUpload }: UploadDropzoneProps) {
               </p>
               <p className="mt-1 text-xs text-red-700/80 dark:text-red-400/80">{errorMsg}</p>
             </div>
-            <button onClick={reset} className="text-red-500 hover:text-red-700">
+            <button onClick={reset} className="clay-btn text-red-500">
               <X className="h-4 w-4" />
             </button>
           </motion.div>
@@ -234,7 +237,7 @@ export function UploadDropzone({ onUpload }: UploadDropzoneProps) {
             exit={{ opacity: 0 }}
             onClick={handleUpload}
             disabled={!file}
-            className="self-start rounded-full bg-black px-5 py-2.5 text-sm font-medium text-white disabled:cursor-not-allowed disabled:opacity-40 dark:bg-white dark:text-black"
+            className="self-start clay-btn py-2.5 px-5 font-label-md text-label-md text-secondary disabled:cursor-not-allowed disabled:opacity-40"
             whileHover={file ? { scale: 1.02 } : undefined}
             whileTap={file ? { scale: 0.98 } : undefined}
           >

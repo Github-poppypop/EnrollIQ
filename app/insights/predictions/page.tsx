@@ -67,7 +67,7 @@ export default function PredictionsPage() {
               <select
                 value={model}
                 onChange={(e) => setModel(e.target.value)}
-                className="rounded-md border border-zinc-300 bg-white px-3 py-2 text-sm dark:border-zinc-700 dark:bg-black"
+                className="clay-card px-3 py-2 font-body-sm text-body-sm text-on-surface"
               >
                 {models.map((m) => (
                   <option key={m} value={m}>{m}</option>
@@ -76,9 +76,8 @@ export default function PredictionsPage() {
               <button
                 onClick={load}
                 disabled={loading}
-                className="inline-flex items-center gap-2 rounded-full border border-zinc-300 px-3 py-2 text-sm hover:border-black dark:border-zinc-700 dark:hover:border-white disabled:opacity-50"
+                className="clay-btn inline-flex items-center gap-2 py-2 px-3 font-label-md text-label-md text-on-surface disabled:opacity-50"
               >
-                <Download className="h-4 w-4" />
                 Refresh
               </button>
             </div>
@@ -96,8 +95,8 @@ export default function PredictionsPage() {
             >
               <p className="font-medium">Unable to load predictions</p>
               <p className="mt-1">{error}</p>
-              <button onClick={load} className="mt-3 rounded-full border border-red-300 px-3 py-1 text-xs hover:bg-red-100">
-                Retry
+              <button onClick={load} className="mt-3 clay-btn py-1.5 px-3 font-label-md text-label-md text-secondary">
+   Retry
               </button>
             </motion.div>
           ) : !payload ? (
