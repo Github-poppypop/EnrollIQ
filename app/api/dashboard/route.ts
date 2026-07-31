@@ -7,12 +7,29 @@ export const dynamic = 'force-dynamic';
 
 export async function GET(request: Request) {
   try {
+    const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+    if (!url || !key) {
+      return NextResponse.json({
+        metrics: [
+          { title: 'Total Enrollment', value: '0', delta: '—', icon: 'Users' },
+          { title: 'Avg Capacity Utilization', value: '0.0%', delta: '—', icon: 'Activity' },
+          { title: 'Retention Rate', value: '0.0%', delta: '—', icon: 'TrendingUp' },
+          { title: 'Model MAE', value: 'N/A', delta: '—', icon: 'BarChart3' },
+        ],
+        demandCapacity: [],
+        scatter: [],
+      });
+    }
+
     const supabase = await createSupabaseServerClient();
     const { searchParams } = new URL(request.url);
     const institutionId = searchParams.get('institution_id');
 
     const [enrollments] = await Promise.all([
-      institutionId ? listEnrollmentsByInstitutionAndTerm(institutionId, undefined, supabase) : Promise.resolve([]),
+      institutionId
+        ? listEnrollmentsByInstitutionAndTerm(institutionId, undefined, supabase)
+        : Promise.resolve([]),
     ]);
 
     const totalEnrollment = enrollments.reduce((sum, row) => sum + (row.enrolled ?? 0) + (row.waitlist ?? 0), 0);

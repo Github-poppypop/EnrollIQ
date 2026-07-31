@@ -2,6 +2,12 @@ import { createSupabaseServerClient } from '@/lib/supabase/server';
 import { NextResponse } from 'next/server';
 
 export async function GET() {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  if (!url || !key) {
+    return NextResponse.json({ user: null }, { status: 401 });
+  }
+
   const supabase = await createSupabaseServerClient();
   const {
     data: { user },
