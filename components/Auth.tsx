@@ -55,7 +55,7 @@ export default function Auth() {
 
   if (loading) {
     return (
-      <div className="h-6 w-6 animate-pulse rounded-full bg-zinc-200 dark:bg-zinc-800" />
+      <div className="h-6 w-6 animate-pulse rounded-full bg-surface-container" />
     );
   }
 
@@ -63,7 +63,7 @@ export default function Auth() {
     return (
       <a
         href="/auth/signin"
-        className="rounded-full border border-zinc-300 px-3 py-1 text-xs hover:border-black dark:border-zinc-700 dark:hover:border-white"
+        className="clay-btn py-1.5 px-3 font-label-md text-label-md text-on-surface"
       >
         Sign in
       </a>
@@ -72,10 +72,10 @@ export default function Auth() {
 
   return (
     <div className="flex items-center gap-3">
-      <span className="text-xs text-zinc-600 dark:text-zinc-400"> {user.email}</span>
+      <span className="font-body-sm text-body-sm text-on-surface-variant">{user.email}</span>
       <button
         onClick={signOut}
-        className="rounded-full border border-zinc-300 px-3 py-1 text-xs hover:border-black dark:border-zinc-700 dark:hover:border-white"
+        className="clay-btn py-1.5 px-3 font-label-md text-label-md text-on-surface"
       >
         Sign out
       </button>
