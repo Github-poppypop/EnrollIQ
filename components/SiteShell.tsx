@@ -55,10 +55,10 @@ export default function SiteShell({ children }: { children: React.ReactNode }) {
                 key={item.href}
                 href={item.href}
                 className={cx(
-                  'flex items-center gap-3 px-3 py-2 rounded-lg transition-colors shrink-0',
+                  'flex items-center gap-3 px-3 py-2 rounded-lg transition-colors',
                   active
                     ? 'bg-surface-container-low text-secondary border-l-4 border-secondary'
-                    : 'text-on-surface-variant hover:bg-surface-container'
+                    : 'clay-card text-on-surface hover:text-secondary'
                 )}
               >
                 <span className={cx('material-symbols-outlined text-[20px] shrink-0', active && 'text-secondary')}>
@@ -105,7 +105,7 @@ export default function SiteShell({ children }: { children: React.ReactNode }) {
                   'flex items-center gap-3 px-3 py-2 rounded-lg transition-colors',
                   active
                     ? 'bg-surface-container-low text-secondary border-l-4 border-secondary'
-                    : 'text-on-surface-variant hover:bg-surface-container'
+                    : 'clay-card text-on-surface hover:text-secondary'
                 )}
               >
                 {inner}
@@ -125,7 +125,7 @@ export default function SiteShell({ children }: { children: React.ReactNode }) {
               <span className="material-symbols-outlined text-on-surface-variant mr-2 text-[20px]">search</span>
               <input
                 className="bg-transparent border-none focus:ring-0 p-0 font-body-sm text-body-sm w-full text-on-surface placeholder:text-on-surface-variant"
-                placeholder="Search..."
+                placeholder="Search insights..."
                 type="text"
               />
             </div>
