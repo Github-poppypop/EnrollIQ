@@ -3,23 +3,6 @@
 @import "tailwindcss";
 
 @theme inline {
-  --color-background: #f1f5f9;
-  --color-foreground: #0f172a;
-  --color-surface: #e2e8f0;
-  --color-surface-dim: #cbd5e1;
-  --color-surface-container-lowest: #f8fafc;
-  --color-surface-container-low: #f1f5f9;
-  --color-surface-container: #e2e8f0;
-  --color-surface-container-high: #cbd5e1;
-  --color-surface-container-highest: #cbd5e1;
-  --color-on-surface: #1e293b;
-  --color-on-surface-variant: #475569;
-  --color-inverse-surface: #0f172a;
-  --color-inverse-on-surface: #f1f5f9;
-  --color-outline: #64748b;
-  --color-outline-variant: #94a3b8;
-  --color-surface-variant: #cbd5e1;
-  --color-surface-tint: #64748b;
   --color-primary: #000000;
   --color-on-primary: #ffffff;
   --color-primary-container: #334155;
@@ -29,6 +12,7 @@
   --color-on-primary-fixed: #0f172a;
   --color-on-primary-fixed-variant: #1e293b;
   --color-inverse-primary: #94a3b8;
+
   --color-secondary: #ff6600;
   --color-on-secondary: #ffffff;
   --color-secondary-container: #ff6600;
@@ -37,6 +21,7 @@
   --color-secondary-fixed-dim: #94a3b8;
   --color-on-secondary-fixed: #9a3412;
   --color-on-secondary-fixed-variant: #ea580c;
+
   --color-tertiary: #000000;
   --color-on-tertiary: #ffffff;
   --color-tertiary-container: #334155;
@@ -45,12 +30,55 @@
   --color-tertiary-fixed-dim: #ff6600;
   --color-on-tertiary-fixed: #0f172a;
   --color-on-tertiary-fixed-variant: #334155;
+
+  --color-background: #f1f5f9;
+  --color-on-background: #0f172a;
+  --color-surface: #e2e8f0;
+  --color-surface-dim: #cbd5e1;
+  --color-surface-bright: #f8fafc;
+  --color-surface-container-lowest: #f8fafc;
+  --color-surface-container-low: #f1f5f9;
+  --color-surface-container: #e2e8f0;
+  --color-surface-container-high: #cbd5e1;
+  --color-surface-container-highest: #cbd5e1;
+  --color-surface-variant: #cbd5e1;
+  --color-surface-tint: #64748b;
+
+  --color-on-surface: #1e293b;
+  --color-on-surface-variant: #475569;
+
+  --color-inverse-surface: #0f172a;
+  --color-inverse-on-surface: #f1f5f9;
+
+  --color-outline: #64748b;
+  --color-outline-variant: #94a3b8;
+
   --color-error: #dc2626;
   --color-on-error: #ffffff;
   --color-error-container: #fecaca;
   --color-on-error-container: #7f1d1d;
+
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-jetbrains-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --font-family-label-md: ["Inter"];
+  --font-family-headline-lg: ["Inter"];
+  --font-family-display: ["Inter"];
+  --font-family-body-sm: ["Inter"];
+  --font-family-body-md: ["Inter"];
+  --font-family-headline-md: ["Inter"];
+  --font-family-body-lg: ["Inter"];
+  --font-family-mono-md: ["JetBrains Mono"];
+
+  --font-size-label-md: ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}];
+  --font-size-headline-lg: ["28px", {"lineHeight": "36px", "letterSpacing": "-0.01em", "fontWeight": "600"}];
+  --font-size-display: ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}];
+  --font-size-body-sm: ["12px", {"lineHeight": "18px", "fontWeight": "400"}];
+  --font-size-body-md: ["14px", {"lineHeight": "20px", "fontWeight": "400"}];
+  --font-size-headline-md: ["20px", {"lineHeight": "28px", "fontWeight": "600"}];
+  --font-size-body-lg: ["16px", {"lineHeight": "24px", "fontWeight": "400"}];
+  --font-size-mono-md: ["13px", {"lineHeight": "20px", "fontWeight": "400"}];
+
   --radius-xs: 0.25rem;
   --radius-sm: 0.5rem;
   --radius-default: 0.75rem;
@@ -58,6 +86,8 @@
   --radius-lg: 1.5rem;
   --radius-xl: 1.5rem;
   --radius-full: 0.75rem;
+
+  --spacing-sidebar-width: 260px;
 }
 
 .material-symbols-outlined {
@@ -84,7 +114,7 @@ html {
 
 body {
   min-height: 100vh;
-  background-color: var(--color-surface);
+  background-color: #e2e8f0;
 }
 
 .clay-card {
