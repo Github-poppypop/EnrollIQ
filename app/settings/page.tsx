@@ -9,26 +9,26 @@ export default function SettingsPage() {
   return (
     <div className="flex flex-col gap-6">
       <div>
-        <h1 className="text-2xl font-semibold tracking-tight">Settings</h1>
-        <p className="text-sm text-zinc-600 dark:text-zinc-400">
+        <h1 className="font-headline-md text-headline-md font-semibold text-on-surface">Settings</h1>
+        <p className="font-body-sm text-body-sm text-on-surface-variant">
           Institution, calendar, and model defaults.
         </p>
       </div>
       <form className="grid grid-cols-1 gap-4 sm:max-w-xl">
-        <label className="flex flex-col gap-2 text-sm">
-          <span className="font-medium">Institution</span>
+        <label className="flex flex-col gap-2">
+          <span className="font-label-md text-label-md text-on-surface">Institution</span>
           <input
             value={institution}
             onChange={(e) => setInstitution(e.target.value)}
-            className="rounded-md border border-zinc-300 px-3 py-2 dark:border-zinc-700"
+            className="clay-card px-3 py-2 font-body-sm text-body-sm text-on-surface"
           />
         </label>
-        <label className="flex flex-col gap-2 text-sm">
-          <span className="font-medium">Academic calendar</span>
+        <label className="flex flex-col gap-2">
+          <span className="font-label-md text-label-md text-on-surface">Academic calendar</span>
           <select
             value={term}
             onChange={(e) => setTerm(e.target.value)}
-            className="rounded-md border border-zinc-300 px-3 py-2 dark:border-zinc-700"
+            className="clay-card px-3 py-2 font-body-sm text-body-sm text-on-surface"
           >
             <option>Semester</option>
             <option>Quarter</option>
@@ -38,11 +38,11 @@ export default function SettingsPage() {
         <div className="flex items-center gap-3">
           <button
             type="button"
-            className="rounded-full bg-black px-4 py-2 text-sm text-white dark:bg-white dark:text-black"
+            className="clay-btn-primary py-2 px-5 font-label-md text-label-md font-semibold"
           >
             Save settings
           </button>
-          <span className="text-xs text-zinc-500">Saved locally for demo.</span>
+          <span className="font-body-sm text-body-sm text-on-surface-variant">Saved locally for demo.</span>
         </div>
       </form>
     </div>
