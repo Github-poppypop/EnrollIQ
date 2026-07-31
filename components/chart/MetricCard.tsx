@@ -35,17 +35,17 @@ export function MetricCard({
 
   return (
     <motion.div
-      className="rounded-2xl border border-white/20 bg-white/60 backdrop-blur-xl p-4 shadow-sm hover:shadow-lg hover:shadow-blue-500/5 transition-shadow duration-300 dark:border-white/5 dark:bg-white/[0.04]"
+      className="clay-card p-4"
       initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4 }}
       whileHover={{ y: -2, scale: 1.01 }}
     >
       <div className="flex items-center justify-between">
-        <div className="text-xs font-medium text-zinc-600 dark:text-zinc-400">
+        <div className="font-label-md text-label-md text-on-surface uppercase tracking-wider">
           {title}
         </div>
-        {Icon && <Icon className="h-4 w-4 text-zinc-400" />}
+        {Icon && <Icon className="h-4 w-4 text-on-surface-variant" />}
       </div>
       <div className="mt-2 flex items-end gap-3">
         <CountUp
@@ -53,11 +53,11 @@ export function MetricCard({
           prefix={prefix}
           suffix={suffix}
           decimals={suffix === '%' ? 1 : 0}
-          className="text-2xl font-semibold"
+          className="font-headline-md text-headline-md text-on-surface"
         />
       </div>
       <div className="mt-1 flex items-center gap-2">
-        <span className={`text-xs font-medium ${deltaColor}`}>
+        <span className={`font-label-md text-label-md ${deltaColor}`}>
           {delta}
         </span>
         {sparklineData.length > 1 && (
