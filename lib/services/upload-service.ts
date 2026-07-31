@@ -26,6 +26,7 @@ export interface RawEnrollmentRecord {
   enrolled: number | string;
   waitlist: number | string;
   capacity: number | string;
+  student_count?: number | string;
   snapshot_at?: string; // ISO-8601 — optional; falls back to "now"
 }
 

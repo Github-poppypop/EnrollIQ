@@ -6,9 +6,20 @@
  */
 
 export * from './enrollment-service';
-export { listForecastsByInstitution as listForecasts } from './forecast-service';
-export { getForecastById } from './forecast-service';
-export { createForecast } from './forecast-service';
+export {
+  listForecastsByInstitution as listForecasts,
+  getForecastById,
+  createForecast,
+  persistForecast,
+  validateForecastMetadata,
+} from './forecast-service';
+export type {
+  ForecastRow,
+  CreateForecastInput,
+  ForecastInput,
+  ForecastMetadata,
+  SubForecast,
+} from './forecast-service';
 export * from './upload-service';
 
 // ── Client-facing page data wrappers ─────────────────────────────────────────
@@ -28,9 +39,40 @@ export type DemandCapacityPoint = {
   forecast: number;
 };
 
+export type ScatterPoint = {
+  term: string;
+  demand: number;
+  capacity: number;
+};
+
+export type RadarDimension = {
+  name: string;
+  value: number;
+};
+
+export type HeatmapCell = {
+  term: string;
+  segment: string;
+  value: number;
+};
+
+export type DonutSegment = {
+  name: string;
+  value: number;
+  color: string;
+};
+
+export type PredictionWithBounds = {
+  term: string;
+  actual: number | null;
+  upper: number;
+  lower: number;
+};
+
 export type DashboardPayload = {
   metrics: MetricItem[];
   demandCapacity: DemandCapacityPoint[];
+  scatter: ScatterPoint[];
 };
 
 export async function fetchDashboardData(): Promise<DashboardPayload> {
@@ -114,5 +156,39 @@ export async function submitUpload(file: File): Promise<UploadResponse> {
     throw new Error(body.error ?? `Upload failed (${res.status})`);
   }
 
+  return res.json();
+}
+
+export async function fetchScatterData(): Promise<ScatterPoint[]> {
+  const res = await fetch('/api/dashboard', {
+    next: { revalidate: 60 },
+    cache: 'no-store',
+  });
+  if (!res.ok) {
+    throw new Error(`Scatter data fetch failed (${res.status})`);
+  }
+  const body = (await res.json()) as { scatter: ScatterPoint[] };
+  return body.scatter;
+}
+
+export async function fetchRadarData(): Promise<RadarDimension[]> {
+  const res = await fetch('/api/insights/radar', {
+    next: { revalidate: 60 },
+    cache: 'no-store',
+  });
+  if (!res.ok) {
+    throw new Error(`Radar data fetch failed (${res.status})`);
+  }
+  return res.json();
+}
+
+export async function fetchHeatmapData(): Promise<HeatmapCell[]> {
+  const res = await fetch('/api/insights/heatmap', {
+    next: { revalidate: 60 },
+    cache: 'no-store',
+  });
+  if (!res.ok) {
+    throw new Error(`Heatmap data fetch failed (${res.status})`);
+  }
   return res.json();
 }

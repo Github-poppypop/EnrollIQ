@@ -392,3 +392,76 @@ export async function deleteEnrollment(
     throw error;
   }
 }
+
+// ---------------------------------------------------------------------------
+// validateEnrollmentRow — data quality checks for a single enrollment row
+// ---------------------------------------------------------------------------
+
+export interface EnrollmentValidationError {
+  field: string;
+  reason: string;
+  value: unknown;
+}
+
+export interface EnrollmentValidationReport {
+  valid: boolean;
+  errors: EnrollmentValidationError[];
+}
+
+/**
+ * Validates a single enrollment record against business rules.
+ * Checks: student_count >= 0, capacity >= student_count,
+ * snapshot_at is valid ISO date, course_id is non-empty.
+ */
+export function validateEnrollmentRow(row: {
+  student_count?: number | null;
+  capacity?: number | null;
+  snapshot_at?: string;
+  course_id?: string | null;
+}): EnrollmentValidationReport {
+  const errors: EnrollmentValidationError[] = [];
+
+  // student_count must be >= 0 if present
+  if (row.student_count !== undefined && row.student_count !== null) {
+    if (typeof row.student_count !== 'number' || Number.isNaN(row.student_count)) {
+      errors.push({ field: 'student_count', reason: 'must be a valid number', value: row.student_count });
+    } else if (row.student_count < 0) {
+      errors.push({ field: 'student_count', reason: 'must be >= 0', value: row.student_count });
+    }
+  }
+
+  // capacity must be >= student_count when both are present
+  if (row.capacity !== undefined && row.capacity !== null && row.student_count !== undefined && row.student_count !== null) {
+    if (typeof row.capacity === 'number' && typeof row.student_count === 'number') {
+      if (row.capacity < row.student_count) {
+        errors.push({
+          field: 'capacity',
+          reason: `capacity (${row.capacity}) must be >= student_count (${row.student_count})`,
+          value: row.capacity,
+        });
+      }
+    }
+  }
+
+  // snapshot_at must be a valid ISO-8601 date
+  if (row.snapshot_at !== undefined && row.snapshot_at !== null) {
+    if (typeof row.snapshot_at !== 'string' || isNaN(Date.parse(row.snapshot_at))) {
+      errors.push({
+        field: 'snapshot_at',
+        reason: 'must be a valid ISO-8601 date string',
+        value: row.snapshot_at,
+      });
+    }
+  }
+
+  // course_id must be a non-empty string
+  if (!row.course_id || typeof row.course_id !== 'string' || row.course_id.trim() === '') {
+    errors.push({
+      field: 'course_id',
+      reason: 'course_id is required and must be a non-empty string',
+      value: row.course_id ?? null,
+    });
+  }
+
+  return { valid: errors.length === 0, errors };
+}
